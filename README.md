@@ -1767,6 +1767,177 @@ if (window.customElements && document.body.attachShadow) {
 ```
 - [ ] Footer Styling: turn on app embeds (customize)
 - [ ] Footer Styling: Build footer content out (customize)
+- [ ] Edit **Config/settings_schema.json** with updated social links
+```
+{
+        "type": "header",
+        "content": "Social Accounts"
+      },
+      {
+        "type": "header",
+        "content": "Social Accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_bereal_link",
+        "label": "BeReal",
+        "info": "https:\/\/bere.al\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https:\/\/facebook.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "http:\/\/instagram.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "LinkedIn",
+        "info": "https:\/\/www.linkedin.com\/company\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "info": "https:\/\/pinterest.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat",
+        "info": "https:\/\/www.snapchat.com\/add\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok",
+        "info": "https:\/\/tiktok.com\/@shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr",
+        "info": "https:\/\/shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter",
+        "info": "https:\/\/twitter.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo",
+        "info": "https:\/\/vimeo.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https:\/\/www.youtube.com\/shopify"
+      }
+```
+- [ ] Update **Snippets/social-icons**
+```
+<ul class="footer__list-social list-unstyled list-social" role="list">
+  {%- if settings.social_twitter_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_twitter_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-twitter"></i>
+        <span class="visually-hidden">Twitter</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_facebook_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_facebook_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-facebook-f"></i>
+        <span class="visually-hidden">Facebook</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_pinterest_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_pinterest_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-pinterest"></i>
+        <span class="visually-hidden">Pinterest</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_instagram_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_instagram_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-instagram"></i>
+        <span class="visually-hidden">Instagram</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_tiktok_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_tiktok_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-tiktok"></i>
+        <span class="visually-hidden">TikTok</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_tumblr_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_tumblr_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-tumblr"></i>
+        <span class="visually-hidden">Tumblr</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_snapchat_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_snapchat_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-snapchat"></i>
+        <span class="visually-hidden">Snapchat</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_bereal_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_bereal_link }}" class="link list-social__link" >
+        <i class="fak fa-bereal-square-icon"></i>
+        <span class="visually-hidden">BeReal</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_youtube_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_youtube_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-youtube"></i>
+        <span class="visually-hidden">YouTube</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_vimeo_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_vimeo_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-vimeo-v"></i>
+        <span class="visually-hidden">Vimeo</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_linkedin_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_linkedin_link }}" class="link list-social__link" >
+        <i class="fa-brands fa-linkedin-in"></i>
+        <span class="visually-hidden">LinkedIn</span>
+      </a>
+    </li>
+  {%- endif -%}
+</ul>
+```
+- [ ] Add social media links (customize)
 - [ ] Homepage Styling
 - [ ] Makers List / All Collections
 - [ ] Maker Page
