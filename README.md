@@ -144,7 +144,7 @@ html, body, p {
 }
 /* —————————— Typography —————————— */
 ```
-- [ ] Brand Colors & Fonts: Add brand fonts to **Layout/theme.liquid**
+- [ ] Brand Colors & Fonts: Add brand fonts, link stylesheet, and add jquery snippet at the end of `<head>` in **Layout/theme.liquid**
 ```
 {% comment %} —————————— Fonts —————————— {% endcomment %}
     {% style %}
@@ -217,10 +217,13 @@ html, body, p {
     <script src="https://kit.fontawesome.com/983e4daf36.js" crossorigin="anonymous"></script>
     {% comment %} —————————— End Fonts —————————— {% endcomment %}
 
-```
-- [ ] Brand Colors & Fonts: Add stylesheet to **Layout/theme.liquid**
-```
-{{ 'style.css' | asset_url | stylesheet_tag }}
+    {{ 'style.css' | asset_url | stylesheet_tag }}
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous">
+    </script>
 ```
 - [ ] Announcement Bar: update **Sections/announcement-bar.liquid**
 ```
@@ -966,7 +969,7 @@ html, body, p {
 }
 {% endschema %}
 ```
-- [ ] Header Styling: add logo and center header (customize)
+- [ ] Header Styling: add logo at 200px and top center header (customize)
 - [ ] Header Styling: Hide separator line in header (customize)
 - [ ] Footer Styling: create **Snippets/footer-paper.liquid**
 ```
@@ -1761,14 +1764,6 @@ if (window.customElements && document.body.attachShadow) {
   }
 }
 {% endschema %}
-```
-- [ ] Footer Styling: add jquery snippet to end of <head> in **Layout/theme.liquid**
-```
-<script
-      src="https://code.jquery.com/jquery-3.4.1.js"
-      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-      crossorigin="anonymous">
-    </script>
 ```
 - [ ] Footer Styling: turn on app embeds (customize)
 - [ ] Footer Styling: Build footer content out (customize)
