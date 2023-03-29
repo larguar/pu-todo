@@ -1779,13 +1779,75 @@ if (window.customElements && document.body.attachShadow) {
 ### Collection
 
 - [ ] Adjust collection page format with filtering on left (customize)
-- [ ] Starburst: only _ left, last chance, limited release, new, % off
+- [ ] Add only _ left, last chance, limited release, new, % off to the end of **Snippets/product-card.liquid**
 ```
+<!-- ————— Product Grid Badges ————— -->
+{% assign show_qty = false %}
+{%- if product.selected_or_first_available_variant.inventory_quantity < 6 and product.selected_or_first_available_variant.inventory_quantity > 0 -%}
+  {% assign show_qty = true %}
+{% endif %}
+	
+{% assign last_chance = false %}
+{%- if product_card_product.tags contains 'clearance' -%}
+  {% assign last_chance = true %}
+{% endif %}
 
-```
-- [ ] Sold out, temporarily out, gone for good
-```
+{% assign limited_release = true %}
+{% if product_card_product.available %}
+  {% assign limited_release = false %}
+{% endif %}	
 
+{% assign new_item = false %}
+{%- if product_card_product.tags contains 'new' -%}
+  {% assign new_item = true %}
+{% endif %}
+	 
+<div class="card__badge">    
+  <!-- ————— Badge 1 ————— -->
+  {% if show_qty %}
+      <span class="badge limited">Only {{ product.selected_or_first_available_variant.inventory_quantity }} left!</span>
+  {% elsif limited_release %}
+      <span class="badge limited">Limited Release</span>
+  {% elsif last_chance %}
+      <span class="badge lastchance">Last Chance</span>
+  {% elsif new_item %}
+      <span class="badge new">New</span>
+  {% endif %}
+</div>
+<!-- ————— End Product Grid Badges ————— -->
+```
+- [ ] Add sold out, temporarily out, gone for good snippet after `{% render 'price', product: product_card_product, price_class: '' %}` in **Snippets/product-card.liquid**
+```
+<!-- ————— Sold Out ————— -->
+<style>
+.media.soldout {
+    opacity: 0.4;
+}
+</style>
+	
+{% assign last_chance = false %}
+{%- if product_card_product.tags contains 'clearance' -%}
+  {% assign last_chance = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product_card_product.available %}
+  {% assign sold_out = false %}
+{% endif %}	
+	
+{% assign on_the_way = false %}
+{% if product_card_product.selected_or_first_available_variant.incoming %}
+  {% assign on_the_way = true %}
+{% endif %}
+	
+{% if sold_out and last_chance %}
+  <div class="badge soldout gone"><i class="fad fa-frown"></i> Gone For Good</div>
+{% elsif sold_out and on_the_way %}
+  <div class="badge soldout"><i class="fad fa-heart"></i> More On The Way!</div>
+{% elsif sold_out %}
+  <div class="badge soldout gone"><i class="fad fa-frown"></i> Temporarily Out</div>
+{% endif %}
+<!-- ————— End Sold Out ————— -->
 ```
 
 ### Product Page
@@ -1859,13 +1921,25 @@ if (window.customElements && document.body.attachShadow) {
 - [ ] Dropdown Variant Picker (customize)
 - [ ] Quantity Selector (customize)
 - [ ] Buy Buttons (customize)
-- [ ] Custom liquid: sold out, temporarily out, gone for good
+- [ ] Add sold out, temporarily out, gone for good snippet under `<div class="product-form__buttons">` in **Sections/main-product.liquid**
 ```
-
+<!-- ————— Sold Out Status ————— --> 
+<span>
+  {%- if product.selected_or_first_available_variant.available -%}
+    Add to Cart
+  {%- elsif product.tags contains 'clearance' -%}
+    Gone For Good
+  {%- elsif product.selected_or_first_available_variant.incoming -%}
+    More on the Way!
+  {%- else -%}
+    Temporarily Out
+  {%- endif -%}
+</span>
+<!-- ————— End Sold Out Status ————— --> 
 ```
 - [ ] Wishlist Button (customize)
 - [ ] Description (customize)
-- [ ] Update collapsible tab syntax in main-product.liquid
+- [ ] Update collapsible tab syntax in **Sections/main-product.liquid**
 ```
 {
       "type": "collapsible_tab",
@@ -1901,7 +1975,7 @@ if (window.customElements && document.body.attachShadow) {
       ]
     },
 ```
-- [ ] Update collapsible tab code in main-product.liquid
+- [ ] Update collapsible tab code in **Sections/main-product.liquid**
 ```
 {%- when 'collapsible_tab' -%}
             <div class="{%- if block.settings.custom_class != blank -%}{{ block.settings.custom_class }} {%- endif -%} product__accordion accordion" {{ block.shopify_attributes }}>
@@ -1991,10 +2065,8 @@ charity-info
 - [ ] Quality Note (customize)
 ```
 <!-- If Rainbow Pin -->
-Rainbow Plating
 {{ content.rainbow_plating }}
 <!-- If Heavy Metal Pin -->
-Heavy Metal
 {{ content.heavy_metal }}
 ```
 - [ ] Quality Note icon (customize)
@@ -2017,7 +2089,11 @@ quality-note
 ```
 shipping-info
 ```
-- [ ] Maker Banner: create maker-banner.liquid under Sections
+- [ ] Add hide collapse css to **Sections/main-product.liquid**
+```
+
+```
+- [ ] Maker Banner: create **Sections/maker-banner.liquid**
 ```
 {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
 
@@ -2192,11 +2268,64 @@ shipping-info
 {% endfor %}
 ```
 - [ ] Reviews (customize)
-- [ ] Special Features: glow in the dark, actually moves/spins (customize)
+- [ ] Add special features right before `<slider-component class="slider-mobile-gutter">` in **Sections/main-product.liquid**
 ```
+ <!-- ————— Special Features ————— --> 	
+{% assign moves = false %}
+{%- if product.tags contains 'moves' -%}
+  {% assign moves = true %}
+{% endif %}
+	
+{% assign glows = false %}
+{%- if product.tags contains 'glow in the dark' -%}
+  {% assign glows = true %}
+{% endif %}
 
+<div class="image-badges">	
+{% if moves %}<span class="image-badge">Actually Moves</span>{% endif %}
+{% if glows %}<span class="image-badge">Glow in the Dark</span>{% endif %}
+</div>	
+ <!-- ————— End Special Features ————— --> 
 ```
-- [ ] Restock notifications (customize)
+- [ ] Add restock notifications snippet to the end of **Layout/theme.liquid**
 ```
-
+<!-- —————————— Snippet for Klaviyo Back in Stock Flow —————————— -->  
+<script src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
+<script>
+    var klaviyo = klaviyo || [];
+    klaviyo.init({
+      account: "Sd5RY7",
+      platform: "shopify",
+      exclude_on_tags: 'clearance'
+    });
+    klaviyo.enable("backinstock",{ 
+    trigger: {
+      product_page_text: "Notify Me When Available",
+      product_page_class: "btn",
+      product_page_text_align: "center",
+      product_page_margin: "0px",
+      replace_anchor: false
+    },
+    modal: {
+     headline: "{product_name}",
+     body_content: "Have no fear! We'll send you an email as soon as this item is back in stock. Just let us know the best email to reach you.",
+     email_field_label: "Email",
+     button_label: "Notify me when available",
+     subscription_success_label: "You're in! We'll let you know when it's back.",
+     footer_content: '',
+     additional_styles: "@import url('https://fonts.googleapis.com/css?family=Helvetica+Neue');",
+     drop_background_color: "#000",
+     background_color: "#fff",
+     text_color: "#222",
+     button_text_color: "#fff",
+     button_background_color: "#439fdb",
+     close_button_color: "#ccc",
+     error_background_color: "#fcd6d7",
+     error_text_color: "#C72E2F",
+     success_background_color: "#d3efcd",
+     success_text_color: "#1B9500"
+    }
+  });
+</script>
+<!-- —————————— End Snippet for Klaviyo Back in Stock Flow —————————— -->
 ```
