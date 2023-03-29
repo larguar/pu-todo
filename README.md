@@ -1945,7 +1945,7 @@ if (window.customElements && document.body.attachShadow) {
 ### Collection
 
 - [ ] Adjust collection page format with filtering on left (customize)
-- [ ] Add only _ left, last chance, limited release, new, % off by replacing `<div class="card__badge {{ settings.badge_position }}">` in **Snippets/product-card.liquid**
+- [ ] Add only _ left, last chance, limited release, new, % off by replacing `<div class="card__badge {{ settings.badge_position }}">` in **Snippets/card-product.liquid**
 ```
 <!-- ————— Product Grid Badges ————— -->
           <div class="card__badge {{ settings.badge_position }}">    
@@ -1963,7 +1963,7 @@ if (window.customElements && document.body.attachShadow) {
           </div>
           <!-- ————— End Product Grid Badges ————— -->
 ```
-- [ ] Add sold out, temporarily out, gone for good snippet after `{% render 'price', product: product_card_product, price_class: '' %}` in **Snippets/product-card.liquid**
+- [ ] Add sold out, temporarily out, gone for good snippet after `{% render 'price', product: product_card_product, price_class: '' %}` in **Snippets/card-product.liquid**
 ```
 <!-- ————— Sold Out ————— -->
 <style>
