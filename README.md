@@ -1945,42 +1945,23 @@ if (window.customElements && document.body.attachShadow) {
 ### Collection
 
 - [ ] Adjust collection page format with filtering on left (customize)
-- [ ] Add only _ left, last chance, limited release, new, % off to the end of **Snippets/product-card.liquid**
+- [ ] Add only _ left, last chance, limited release, new, % off by replacing `<div class="card__badge {{ settings.badge_position }}">` in **Snippets/product-card.liquid**
 ```
 <!-- ————— Product Grid Badges ————— -->
-{% assign show_qty = false %}
-{%- if product.selected_or_first_available_variant.inventory_quantity < 6 and product.selected_or_first_available_variant.inventory_quantity > 0 -%}
-  {% assign show_qty = true %}
-{% endif %}
-	
-{% assign last_chance = false %}
-{%- if product_card_product.tags contains 'clearance' -%}
-  {% assign last_chance = true %}
-{% endif %}
-
-{% assign limited_release = true %}
-{% if product_card_product.available %}
-  {% assign limited_release = false %}
-{% endif %}	
-
-{% assign new_item = false %}
-{%- if product_card_product.tags contains 'new' -%}
-  {% assign new_item = true %}
-{% endif %}
-	 
-<div class="card__badge">    
-  <!-- ————— Badge 1 ————— -->
-  {% if show_qty %}
-      <span class="badge limited">Only {{ product.selected_or_first_available_variant.inventory_quantity }} left!</span>
-  {% elsif limited_release %}
-      <span class="badge limited">Limited Release</span>
-  {% elsif last_chance %}
-      <span class="badge lastchance">Last Chance</span>
-  {% elsif new_item %}
-      <span class="badge new">New</span>
-  {% endif %}
-</div>
-<!-- ————— End Product Grid Badges ————— -->
+          <div class="card__badge {{ settings.badge_position }}">    
+            {% if card_product.selected_or_first_available_variant.inventory_quantity < 6 and card_product.selected_or_first_available_variant.inventory_quantity > 0 %}
+                <span class="badge qty">Only {{ card_product.selected_or_first_available_variant.inventory_quantity }} left!</span>
+            {% elsif card_product.tags contains 'limited' %}
+                <span class="badge limited">Limited Release</span>
+            {% elsif card_product.tags contains 'clearance' %}
+                <span class="badge lastchance">Last Chance</span>
+            {% elsif card_product.compare_at_price > card_product.price and card_product.available %}
+                <span class="badge sale">{{ card_product.compare_at_price | minus: card_product.price | times: 100 | divided_by: card_product.compare_at_price }}% Off</span>
+            {% elsif card_product.tags contains 'new' %}
+                <span class="badge new">New</span>
+            {% endif %}
+          </div>
+          <!-- ————— End Product Grid Badges ————— -->
 ```
 - [ ] Add sold out, temporarily out, gone for good snippet after `{% render 'price', product: product_card_product, price_class: '' %}` in **Snippets/product-card.liquid**
 ```
